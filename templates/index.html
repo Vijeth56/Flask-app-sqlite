@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Board</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-brand">Task Board</div>
+        <div class="navbar-links">
+            <a href="/teams">Manage Teams</a>
+        </div>
+    </nav>
+    
+    <div id="taskSection">
+        <div class="add-task-container">
+            <input type="text" id="taskInput" placeholder="New task" required>
+            <input type="date" id="taskDeadline" required>
+            <button class="add-task-button" onclick="createTask()">Add Task</button>
+        </div>
+        
+        <div class="board">
+            <div id="assigned" class="column" ondrop="drop(event, 'assigned')" ondragover="allowDrop(event)">
+                <h2>Assigned</h2>
+                <div id="tasks-assigned"></div>
+            </div>
+            <div id="in-progress" class="column" ondrop="drop(event, 'in-progress')" ondragover="allowDrop(event)">
+                <h2>In Progress</h2>
+                <div id="tasks-in-progress"></div>
+            </div>
+            <div id="done" class="column" ondrop="drop(event, 'done')" ondragover="allowDrop(event)">
+                <h2>Done</h2>
+                <div id="tasks-done"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", handleLogin);
+
+        
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.getAttribute("data-id"));
+        }
+
+        function drop(event, status) {
+            event.preventDefault();
+            const taskId = event.dataTransfer.getData("text");
+            updateTaskStatus(taskId, status);
+        }
+
+        function updateTaskStatus(taskId, status) {
+            fetch(`/tasks/${status}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: taskId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    loadTasks();
+                } else {
+                    console.error('Failed to update task status');
+                }
+            });
+        }
+
+        function createTask() {
+            const taskInput = document.getElementById("taskInput");
+            const taskDeadline = document.getElementById("taskDeadline");
+            const description = taskInput.value.trim();
+            const deadline = taskDeadline.value;
+
+            if (description) {
+                fetch('/tasks', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ description, deadline })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        addTaskToColumn('assigned', data.task);
+                        taskInput.value = '';
+                        taskDeadline.value = '';
+                    } else {
+                        console.error('Failed to create task');
+                    }
+                });
+            }
+        }
+
+        function loadTasks() {
+            fetch('/tasks-data')
+                .then(response => response.json())
+                .then(data => {
+                    Object.keys(data).forEach(status => {
+                        const columnId = `tasks-${status.replace(' ', '-')}`;
+                        const column = document.getElementById(columnId);
+                        column.innerHTML = '';
+                        data[status].forEach(task => {
+                            addTaskToColumn(status, task);
+                        });
+                    });
+                });
+        }
+
+        function addTaskToColumn(status, task) {
+            const columnId = `tasks-${status.replace(' ', '-')}`;
+            const column = document.getElementById(columnId);
+            const taskElement = document.createElement('div');
+            taskElement.className = 'task';
+            taskElement.setAttribute('draggable', 'true');
+            taskElement.setAttribute('data-id', task.id);
+            taskElement.setAttribute('ondragstart', 'drag(event)');
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = () => deleteTask(task.id);
+
+            taskElement.textContent = `${task.description} (Deadline: ${task.deadline})`;
+            taskElement.appendChild(deleteButton);
+            column.appendChild(taskElement);
+        }
+
+        function deleteTask(taskId) {
+            fetch(`/tasks/${taskId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    loadTasks();
+                } else {
+                    console.error('Failed to delete task');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

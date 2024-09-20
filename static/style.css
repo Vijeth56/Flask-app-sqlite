@@ -1,0 +1,230 @@
+/* General Body Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f5f5f7;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #333;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    color: #333;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+/* Login Form Styles */
+#loginForm {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#loginForm label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+#loginForm input {
+    width: calc(100% - 22px);
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+}
+
+#loginForm input:focus {
+    border-color: #007aff;
+    outline: none;
+}
+
+#loginForm button {
+    background-color: #007aff;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+#loginForm button:hover {
+    background-color: #0051a8;
+}
+
+/* Task Section Styles */
+#taskSection {
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+/* Board Styles */
+.board {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+/* Column Styles */
+.column {
+    flex: 1;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 500px;
+    overflow-y: auto;
+}
+
+.column h2 {
+    font-size: 20px;
+    color: black;
+    margin-bottom: 15px;
+}
+
+/* Task Styles */
+.task {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: move;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s;
+}
+
+.task:hover {
+    background: #e5e5ea;
+}
+
+/* Delete Button Styles */
+.delete-button {
+    background-color: #ff3b30;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.delete-button:hover {
+    background-color: #ff2b2b;
+}
+
+.add-task-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.add-task-container input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.add-task-button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.add-task-button:hover {
+    background-color: #80d30c;
+}
+
+
+/* Table Styles */
+table {
+    width: 70%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: auto;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #e0e0e0;
+}
+
+th {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #e5e5ea;
+}
+
+/* H1 Styles */
+h1 {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 28px;
+    color: #333;
+}
+
+/* Button Styles */
+.add-task-button, .delete-button {
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.add-task-button:hover, .delete-button:hover {
+    background-color: #0051a8;
+}
+
+/* Additional Styles */
+.add-task-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
